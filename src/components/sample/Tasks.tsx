@@ -12,10 +12,10 @@ export const Tasks = () => {
 
   const getTasks = async () => {
     const { data } = await axios.get(
-    //   "http://10.187.10.188:9080/ee/fetchCurrentTasks1",
+      //   "http://localhost:9080/ee/fetchCurrentTasks1",
       //   "http://10.131.50.90:1414/tasks",
-      //   "http://localhost:1414/tasks",
-        "http://10.131.141.171:9080/fetchCurrentTasks"
+      "http://localhost:1414/tasks",
+      //   "http://10.131.141.171:9080/fetchCurrentTasks"
       {
         headers: {
           "Access-Control-Allow-Origin": "*",

@@ -1,4 +1,4 @@
-import { useContext, useState, useEffect } from "react";
+import { useContext, useState } from "react";
 import {
   Image,
   TabList,
@@ -16,17 +16,8 @@ import { Deploy } from "./Deploy";
 import { Publish } from "./Publish";
 import { Tasks } from "./Tasks";
 import { TeamsFxContext } from "../Context";
-import axios from "axios";
-import { Master } from "./Master";
-import { tokens } from "@fluentui/react-components";
 
-interface ITask {
-  taskName: string;
-  currentTaskStatus: string;
-  id: string;
-}
-
-export function Welcome(props: {
+export function Welcome1(props: {
   showFunction?: boolean;
   environment?: string;
 }) {
@@ -41,11 +32,10 @@ export function Welcome(props: {
       azure: "Azure environment",
     }[environment] || "local environment";
 
-  const [selectedValue, setSelectedValue] = useState<TabValue>("");
+  const [selectedValue, setSelectedValue] = useState<TabValue>("local");
 
   const onTabSelect = (event: SelectTabEvent, data: SelectTabData) => {
     setSelectedValue(data.value);
-    console.log({ data });
   };
   const { teamsUserCredential } = useContext(TeamsFxContext);
   const { loading, data, error } = useData(async () => {
@@ -55,35 +45,8 @@ export function Welcome(props: {
     }
   });
   const userName = loading || error ? "" : data!.displayName;
-
-  const [tasks, setTasks] = useState<ITask[]>([]);
-  const getTasks = async () => {
-    const { data } = await axios.get(
-      //   "http://localhost:9080/ee/fetchCurrentTasks1",
-      //   "http://10.131.50.90:1414/tasks",
-      "http://localhost:1414/tasks",
-      //   "http://10.131.141.171:9080/fetchCurrentTasks"
-      {
-        headers: {
-          "Access-Control-Allow-Origin": "*",
-        },
-      }
-    );
-    setTasks(data);
-    setSelectedValue(data[0].id);
-  };
-
-  useEffect(() => {
-    getTasks();
-  }, []);
-
   return (
-    <div
-      className="welcome page"
-      style={{
-        background: tokens.colorNeutralBackground3,
-      }}
-    >
+    <div className="welcome page">
       <div className="narrow page-padding">
         <Image src="hello.png" />
         <h1 className="center">
@@ -95,14 +58,7 @@ export function Welcome(props: {
 
         <div className="tabList">
           <TabList selectedValue={selectedValue} onTabSelect={onTabSelect}>
-            {tasks.map((task, index) => {
-              return (
-                <Tab id={task.id} key={`tab-${index}`} value={task.id}>
-                  {index + 1}. {task.taskName}
-                </Tab>
-              );
-            })}
-            {/* <Tab id="Local" value="local">
+            <Tab id="Local" value="local">
               1. Build your app locally
             </Tab>
             <Tab id="Azure" value="azure">
@@ -113,14 +69,16 @@ export function Welcome(props: {
             </Tab>
             <Tab id="Tasks" value="tasks">
               4. Tasks
-            </Tab> */}
+            </Tab>
           </TabList>
-
           <div>
-            <Master selectedValue={selectedValue} />
-          </div>
-
-          {/* <div>
+            {selectedValue === "local" && (
+              <div>
+                <EditCode showFunction={showFunction} />
+                <CurrentUser userName={userName} />
+                {showFunction && <AzureFunctions />}
+              </div>
+            )}
             {selectedValue === "azure" && (
               <div>
                 <Deploy />
@@ -136,7 +94,7 @@ export function Welcome(props: {
                 <Tasks />
               </div>
             )}
-          </div> */}
+          </div>
         </div>
       </div>
     </div>

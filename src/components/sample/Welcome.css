@@ -40,7 +40,7 @@
 }
 
 .tabList {
-  align-items: center;
+  /* align-items: center; */
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -96,4 +96,20 @@ pre::-webkit-scrollbar {
 
 .error {
   color: red;
+}
+.question-container {
+  margin-bottom: 10px;
+}
+
+.radio-label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.radio-input {
+  margin-right: 5px;
+}
+
+.submit-button {
+  margin-top: 10px;
 }
