@@ -14,9 +14,13 @@ import { CurrentUser } from "./CurrentUser";
 import { useData } from "@microsoft/teamsfx-react";
 import { Deploy } from "./Deploy";
 import { Publish } from "./Publish";
+import { Tasks } from "./Tasks";
 import { TeamsFxContext } from "../Context";
 
-export function Welcome(props: { showFunction?: boolean; environment?: string }) {
+export function Welcome(props: {
+  showFunction?: boolean;
+  environment?: string;
+}) {
   const { showFunction, environment } = {
     showFunction: true,
     environment: window.location.hostname === "localhost" ? "local" : "azure",
@@ -45,8 +49,12 @@ export function Welcome(props: { showFunction?: boolean; environment?: string })
     <div className="welcome page">
       <div className="narrow page-padding">
         <Image src="hello.png" />
-        <h1 className="center">Congratulations{userName ? ", " + userName : ""}!</h1>
-        <p className="center">Your app is running in your {friendlyEnvironmentName}</p>
+        <h1 className="center">
+          Congratulations{userName ? ", " + userName : ""}!
+        </h1>
+        <p className="center">
+          Your app is running in your {friendlyEnvironmentName}
+        </p>
 
         <div className="tabList">
           <TabList selectedValue={selectedValue} onTabSelect={onTabSelect}>
@@ -58,6 +66,9 @@ export function Welcome(props: { showFunction?: boolean; environment?: string })
             </Tab>
             <Tab id="Publish" value="publish">
               3. Publish to Teams
+            </Tab>
+            <Tab id="Tasks" value="tasks">
+              4. Tasks
             </Tab>
           </TabList>
           <div>
@@ -76,6 +87,11 @@ export function Welcome(props: { showFunction?: boolean; environment?: string })
             {selectedValue === "publish" && (
               <div>
                 <Publish />
+              </div>
+            )}
+            {selectedValue === "tasks" && (
+              <div>
+                <Tasks />
               </div>
             )}
           </div>
