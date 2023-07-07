@@ -8,6 +8,7 @@ import {
   TabValue,
   makeStyles,
   shorthands,
+  CounterBadge,
 } from "@fluentui/react-components";
 import "./Welcome.css";
 import { useData } from "@microsoft/teamsfx-react";
@@ -19,6 +20,7 @@ import { MySpinner } from "./MySpinner";
 
 import {
   Live24Regular,
+  LiveOff24Regular,
   // bundleIcon,
 } from "@fluentui/react-icons";
 import { Env } from "../../Env";
@@ -109,7 +111,7 @@ export function Welcome(props: {
       }}
     >
       <div className="narrow page-padding">
-        <Image src="hello.png" />
+        {/* <Image src="hello.png" /> */}
         <h1 className="center">
           Congratulations{userName ? ", " + userName : ""}!
         </h1>
@@ -122,10 +124,25 @@ export function Welcome(props: {
                   <Tab
                     id={task.id}
                     key={`tab-${index}`}
-                    value={task.taskId}
-                    icon={<Live24Regular />}
+                    value={`${task.id}#${task.taskId}`}
+                    icon={
+                      task.currentTaskStatus === "Running" ? (
+                        <Live24Regular />
+                      ) : (
+                        <LiveOff24Regular />
+                      )
+                    }
                   >
                     {index + 1}. {task.taskName}
+                    {task.activeUser > 0 && (
+                      <CounterBadge
+                        appearance="filled"
+                        color="brand"
+                        count={task.activeUser}
+                        style={{ marginLeft: 5 }}
+                        overflowCount={999}
+                      />
+                    )}
                   </Tab>
                 );
               })}

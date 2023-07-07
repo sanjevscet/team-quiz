@@ -4,7 +4,9 @@ interface IProps {
 }
 
 export function Master(props: IProps) {
-  if (props.selectedValue === "getQuizQuestions") {
+  const selectedValue = props.selectedValue as string;
+  const endpoint = selectedValue.split("#")[1];
+  if (endpoint === "getQuizQuestions") {
     return <Quiz />;
   } else {
     return <>Create todo</>;
