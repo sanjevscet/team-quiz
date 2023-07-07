@@ -5,6 +5,11 @@ import {
   RadioGroup,
   tokens,
   Button,
+  useToastController,
+  ToastTitle,
+  Toast,
+  useId,
+  Toaster,
 } from "@fluentui/react-components";
 
 import React, { useEffect, useState } from "react";
@@ -30,16 +35,18 @@ export function Quiz() {
   const [questions, setQuestions] = useState<IQuestion[]>([]);
   const [value, setValue] = React.useState<any[]>([]);
   const styles = useStyles();
-
-  //   const handleAnswerChange = (index: number, answer: string) => {
-  //     const updatedAnswers = [...answers];
-  //     updatedAnswers[index] = answer;
-  //     setAnswers(updatedAnswers);
-  //   };
+  const toasterId = useId("toaster");
+  const { dispatchToast } = useToastController(toasterId);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     console.log({ value }); // Handle the form submission here
+    dispatchToast(
+      <Toast>
+        <ToastTitle>Submitted successfully</ToastTitle>
+      </Toast>,
+      { intent: "success" }
+    );
   };
 
   const getQuiz = async () => {
@@ -57,7 +64,9 @@ export function Quiz() {
       <form onSubmit={handleSubmit}>
         {questions.map((question, index) => (
           <div key={index} className="question-container">
-            <Label id={`quiz-${index}`}>{question.question}</Label>
+            <Label id={`quiz-${index}`} required>
+              {question.question}
+            </Label>
             <RadioGroup
               value={value[index]?.answer}
               onChange={(_, data) =>
@@ -98,6 +107,7 @@ export function Quiz() {
           Clear
         </Button>
       </form>
+      <Toaster toasterId={toasterId} />
     </div>
   );
 }
