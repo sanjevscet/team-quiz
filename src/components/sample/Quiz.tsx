@@ -14,10 +14,12 @@ import {
 
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { MySpinner } from "./MySpinner";
+import { Env } from "../../Env";
 
 interface IQuestion {
   question: string;
-  options: string[];
+  options: string;
 }
 
 const useStyles = makeStyles({
@@ -37,6 +39,7 @@ export function Quiz() {
   const styles = useStyles();
   const toasterId = useId("toaster");
   const { dispatchToast } = useToastController(toasterId);
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -50,63 +53,68 @@ export function Quiz() {
   };
 
   const getQuiz = async () => {
-    const { data } = await axios.get("http://localhost:1414/quiz");
+    setLoading(true);
+    const { ApiEndpoint } = Env;
+    const { data } = await axios.get(`${ApiEndpoint}/ee/getQuizQuestions`);
     setQuestions(data);
+    setLoading((l) => !l);
   };
 
   useEffect(() => {
     getQuiz();
   }, []);
 
+  console.log({ loading });
+
   return (
     <div className={styles.field}>
-      {/* <h2>Quiz</h2> */}
-      <form onSubmit={handleSubmit}>
-        {questions.map((question, index) => (
-          <div key={index} className="question-container">
-            <Label id={`quiz-${index}`} required>
-              {question.question}
-            </Label>
-            <RadioGroup
-              value={value[index]?.answer}
-              onChange={(_, data) =>
-                setValue((prevItems) => {
-                  const updatedItems = [...prevItems];
-                  updatedItems[index] = {
-                    ...updatedItems[index],
-                    answer: data.value,
-                    question: question.question,
-                    question_id: index + 1,
-                  };
-                  return updatedItems;
-                })
-              }
-              aria-labelledby={`quiz-${index}`}
-              required={true}
-            >
-              {/* <p>{question.question}</p> */}
-              {question.options.map((option, optionIndex) => (
-                <Radio value={option} label={option} />
-              ))}
-            </RadioGroup>
-          </div>
-        ))}
-        {/* <button type="submit" className="submit-button">
-          Submit
-        </button> */}
-        <Button appearance="primary" type="submit">
-          Submit
-        </Button>
-        <Button
-          appearance="outline"
-          style={{ marginLeft: 10 }}
-          onClick={() => {
-            setValue([]);
-          }}
-        >
-          Clear
-        </Button>
-      </form>
+      {loading ? (
+        <MySpinner />
+      ) : (
+        <form onSubmit={handleSubmit}>
+          {questions.map((question, index) => (
+            <div key={index} className="question-container">
+              <Label id={`quiz-${index}`} required>
+                {index + 1}. {question.question}
+              </Label>
+              <RadioGroup
+                value={value[index]?.answer}
+                onChange={(_, data) =>
+                  setValue((prevItems) => {
+                    const updatedItems = [...prevItems];
+                    updatedItems[index] = {
+                      ...updatedItems[index],
+                      answer: data.value,
+                      question: question.question,
+                      question_id: index + 1,
+                    };
+                    return updatedItems;
+                  })
+                }
+                aria-labelledby={`quiz-${index}`}
+                required={true}
+              >
+                {question.options.split(",").map((option, optionIndex) => (
+                  <Radio value={option} label={option} />
+                ))}
+              </RadioGroup>
+            </div>
+          ))}
+          <Button appearance="primary" type="submit">
+            Submit
+          </Button>
+          <Button
+            appearance="outline"
+            style={{ marginLeft: 10 }}
+            onClick={() => {
+              setValue([]);
+            }}
+          >
+            Clear
+          </Button>
+        </form>
+      )}
+
       <Toaster toasterId={toasterId} />
     </div>
   );
