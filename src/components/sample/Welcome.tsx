@@ -1,6 +1,5 @@
 import { useContext, useState, useEffect } from "react";
 import {
-  Image,
   TabList,
   Tab,
   SelectTabEvent,
