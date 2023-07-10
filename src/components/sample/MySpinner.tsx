@@ -3,6 +3,10 @@ import * as React from "react";
 
 const useStyles = makeStyles({
   container: {
+    position: "fixed",
+    top: "50%",
+    left: "40%",
+    transform: "translate(-40%, -50%)",
     "> div": { ...shorthands.padding("20px") },
   },
 });

@@ -46,8 +46,10 @@ export function DoActivity() {
   const { dispatchToast } = useToastController(toasterId);
   const [loading, setLoading] = useState(false);
   const [checked, setChecked] = React.useState<CheckboxProps["checked"]>(false);
+  const [isSubmitted, setIsSubmitted] = React.useState(false);
+  const { ApiEndpoint } = Env;
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     // console.log({ value }); // Handle the form submission here
     dispatchToast(
@@ -56,11 +58,14 @@ export function DoActivity() {
       </Toast>,
       { intent: "success" }
     );
+    setIsSubmitted(true);
+    setLoading(true);
+    await axios.post(`${ApiEndpoint}/ee/doActivity`, activity);
+    setLoading(false);
   };
 
   const getActivity = async () => {
     setLoading(true);
-    const { ApiEndpoint } = Env;
     const { data } = await axios.get(`${ApiEndpoint}/ee/doActivity`);
     setActivity(data);
     setLoading((l) => !l);
@@ -99,6 +104,12 @@ export function DoActivity() {
     <div className={styles.field}>
       {loading ? (
         <MySpinner />
+      ) : isSubmitted ? (
+        <div>
+          <Text size={800} style={{ color: "#00Ab12" }}>
+            Thanks for completing activity. New Activity will be assigned soon.
+          </Text>
+        </div>
       ) : (
         <form onSubmit={handleSubmit}>
           <div style={{ paddingBottom: 20 }}>
@@ -138,6 +149,7 @@ export function DoActivity() {
                 checked={checked}
                 onChange={(ev, data) => setChecked(data.checked)}
                 label="Completed"
+                required
               />
             </div>
 
