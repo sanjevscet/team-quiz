@@ -95,7 +95,7 @@ export function Welcome(props: {
       }
     );
     setTasks(data);
-    setSelectedValue(data[0].taskId);
+    setSelectedValue(`${data[0].id}#${data[0].taskId}`);
     setLoadingV2((l) => !l);
   };
 
@@ -110,7 +110,8 @@ export function Welcome(props: {
         background: tokens.colorNeutralBackground3,
       }}
     >
-      <div className="narrow page-padding">
+      <div className="narrows page-padding">
+        {/* <div className="narrow page-padding"> */}
         {/* <Image src="hello.png" /> */}
         <h1 className="center">
           Congratulations{userName ? ", " + userName : ""}!

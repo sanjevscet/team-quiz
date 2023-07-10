@@ -113,3 +113,41 @@ pre::-webkit-scrollbar {
 .submit-button {
   margin-top: 10px;
 }
+
+
+.countdown {
+  display: flex;
+  /* justify-content: center;
+  align-items: center; */
+  font-size: 32px;
+  font-weight: bold;
+}
+
+.countdown-unit {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0 20px;
+}
+
+.countdown-value-circle {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background-color: #00Ab12;
+  /* Adjust the color as desired */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.countdown-value {
+  color: white;
+  font-size: 24px;
+}
+
+.countdown-label {
+  margin-top: 5px;
+  font-size: 14px;
+  color: #777;
+}

@@ -21,7 +21,7 @@ provision:
   - uses: teamsApp/create
     with:
       # Teams app name
-      name: tab-with-backend-${{TEAMSFX_ENV}}
+      name: tab-with-backends-${{TEAMSFX_ENV}}
     # Write the information of created resources into environment file for
     # the specified environment variable(s).
     writeToEnvironmentFile:

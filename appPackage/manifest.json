@@ -15,12 +15,12 @@
         "outline": "outline.png"
     },
     "name": {
-        "short": "tab-with-backend-${{TEAMSFX_ENV}}",
+        "short": "Tab-Backend",
         "full": "Full name for hello-world-tab-with-backend"
     },
     "description": {
         "short": "Short description of hello-world-tab-with-backend",
-        "full": "Full description of hello-world-tab-with-backend"
+        "full": "Full description of hello-world-tab-with-backend test"
     },
     "accentColor": "#FFFFFF",
     "bots": [],
