@@ -7,7 +7,17 @@ interface IProps {
 }
 
 export function Master(props: IProps) {
-  const targetDate = new Date("2023-07-19T23:59:59");
+  // const targetDate = new Date("2023-07-19T23:59:59");
+  const targetDates = [
+    new Date("2023-07-14T23:59:59"),
+    new Date("2023-07-19T13:59:59"),
+    new Date("2023-07-18T23:23:23"),
+    new Date("2023-07-16T17:49:53"),
+    new Date("2023-07-15T08:42:32"),
+  ];
+
+  const randomIndex = Math.floor(Math.random() * targetDates.length);
+  // const randomValue = targetDates[randomIndex];
 
   const selectedValue = props.selectedValue as string;
   const endpoint = selectedValue.split("#")[1];
@@ -16,6 +26,19 @@ export function Master(props: IProps) {
   }
   if (endpoint === "doActivity") {
     return <DoActivity />;
+  }
+  if (selectedValue.split("#")[0] === "2") {
+    return (
+      <>
+        <Text
+          size={800}
+          style={{ margin: 30, display: "block", marginTop: 10 }}
+        >
+          This event will start in -
+        </Text>
+        <MyCountDown targetDate={targetDates[randomIndex]} />
+      </>
+    );
   } else {
     return (
       <>
@@ -23,9 +46,9 @@ export function Master(props: IProps) {
           size={800}
           style={{ margin: 30, display: "block", marginTop: 10 }}
         >
-          This event will be started soon.
+          This event will start in -
         </Text>
-        <MyCountDown targetDate={targetDate} />
+        <MyCountDown targetDate={targetDates[randomIndex]} />
       </>
     );
   }

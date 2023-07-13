@@ -10,6 +10,7 @@ import {
   Text,
   Checkbox,
   CheckboxProps,
+  Image,
 } from "@fluentui/react-components";
 
 import React, { useEffect, useRef, useState, ChangeEvent } from "react";
@@ -26,6 +27,7 @@ interface IActivity {
   completed: boolean;
   time: number;
   image: string;
+  video: string;
 }
 
 const useStyles = makeStyles({
@@ -106,21 +108,42 @@ export function DoActivity() {
         <MySpinner />
       ) : isSubmitted ? (
         <div>
-          <Text size={800} style={{ color: "#00Ab12" }}>
+          <Text
+            size={500}
+            style={{ color: "#005152", display: "block", marginBottom: 20 }}
+          >
             Thanks for completing activity. New Activity will be assigned soon.
           </Text>
+          <div style={{ display: "flex", flexWrap: "wrap" }}>
+            <div className="flex-item">
+              <Image src="image1.png" />
+            </div>
+            <div className="flex-item">
+              <Image src="image2.png" />
+            </div>
+            <div className="flex-item">
+              <Image src="image3.png" />
+            </div>
+            <div className="flex-item">
+              <Image src="image4.png" />
+            </div>
+            <div className="flex-item">
+              <Image src="image5.png" />
+            </div>
+          </div>
+          w{" "}
         </div>
       ) : (
         <form onSubmit={handleSubmit}>
           <div style={{ paddingBottom: 20 }}>
-            <Text size={900}>
+            <Text size={700} style={{ color: "#005512" }}>
               "Physical activity boosts your mood and focus - a perfect break
               from your desk!"
             </Text>
             <br />
             <br />
             <br />
-            <Text size={500} style={{ color: "#00ab12" }}>
+            <Text size={500} style={{ color: "#005512" }}>
               {activity?.title}
             </Text>
             <br />
@@ -137,7 +160,7 @@ export function DoActivity() {
               <div>
                 {/* <img src={activity?.image} alt="img" style={{ width: 300 }} /> */}
                 <YouTube
-                  videoId="kdLSJuzRNUw"
+                  videoId={activity?.video}
                   opts={opts}
                   //   onReady={onPlayerReady}
                 />

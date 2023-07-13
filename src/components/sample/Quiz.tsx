@@ -81,7 +81,8 @@ export function Quiz() {
           <div style={{ marginLeft: 15 }}>
             <Text size={500}>Thanks for showing interest in Quiz.</Text>
             <br />
-            <Text size={500}>Your position is</Text>
+            <br />
+            <Text size={500}>Your current position is</Text>
             <br />
             <Text
               size={1000}
@@ -93,11 +94,21 @@ export function Quiz() {
             >
               {Math.floor(Math.random() * 18) + 3}
             </Text>
+            <br />
+            <Text
+              size={500}
+              style={{
+                display: "block",
+                color: "#005152",
+              }}
+            >
+              Final result will be shared once the Quiz is completed.
+            </Text>
           </div>
         </div>
       ) : (
         <div>
-          <Text size={900} style={{ display: "block" }}>
+          <Text size={700} style={{ display: "block", color: "#005152" }}>
             "Put your brain to the test in our thrilling quiz contest!"
           </Text>
           <br />

@@ -8,6 +8,8 @@ import {
   makeStyles,
   shorthands,
   CounterBadge,
+  Text,
+  Image,
 } from "@fluentui/react-components";
 import "./Welcome.css";
 import { useData } from "@microsoft/teamsfx-react";
@@ -23,6 +25,7 @@ import {
   // bundleIcon,
 } from "@fluentui/react-icons";
 import { Env } from "../../Env";
+import { SelectActivity } from "./SelectActivity";
 
 const useStyles = makeStyles({
   root: {
@@ -77,29 +80,51 @@ export function Welcome(props: {
   const [loadingV2, setLoadingV2] = useState(false);
 
   const [tasks, setTasks] = useState<ITask[]>([]);
+  const [activities, setActivities] = useState<string[]>([]);
+
+  const [userActivities, setUserActivities] = useState<string[]>([]);
+
   const getTasks = async () => {
     setLoadingV2(true);
     const { ApiEndpoint } = Env;
 
-    const { data } = await axios.get(
-      `${ApiEndpoint}/ee/fetchCurrentTasks`,
-      //   "http://localhost:9080/ee/fetchCurrentTasks1",
-      //   "http://10.131.50.90:1414/tasks",
-      // "http://localhost:1414/tasks",
-      //   "http://10.131.141.171:9080/fetchCurrentTasks"
-      {
-        headers: {
-          "Access-Control-Allow-Origin": "*",
-        },
-      }
-    );
+    const { data } = await axios.get(`${ApiEndpoint}/ee/fetchCurrentTasks`);
     setTasks(data);
     setSelectedValue(`${data[0].id}#${data[0].taskId}`);
     setLoadingV2((l) => !l);
   };
 
+  const getInterests = async () => {
+    setLoadingV2(true);
+    // const { ApiEndpoint } = Env;
+
+    // const { data } = await axios.get(`${ApiEndpoint}/ee/fetchCurrentTasks`);
+    // setTasks(data);
+    // setSelectedValue(`${data[0].id}#${data[0].taskId}`);
+    // setLoadingV2((l) => !l);
+    setActivities([
+      "Games",
+      "Dance",
+      "Quiz",
+      "Sports",
+      "Wellness Activities",
+      "Collaborations",
+      "Social Activities",
+      "Community Activities",
+      "Celebration",
+      "Recognition",
+    ]);
+    setLoadingV2(false);
+  };
+
   useEffect(() => {
     getTasks();
+    getInterests();
+  }, []);
+
+  useEffect(() => {
+    getTasks();
+    getInterests();
   }, []);
 
   return (
@@ -112,11 +137,32 @@ export function Welcome(props: {
       <div className="narrows page-padding">
         {/* <div className="narrow page-padding"> */}
         {/* <Image src="hello.png" /> */}
-        <h1 className="center">
-          Congratulations{userName ? ", " + userName : ""}!
+        <h1 className="center" style={{ marginBottom: 60, color: "#005152" }}>
+          EngageU
+          {/* <Image src="logo.png" /> */}
         </h1>
+
+        {!!!userActivities.length && (
+          <h2 className="centers">Welcome{userName ? ", " + userName : ""}</h2>
+        )}
+        {/* <Text
+          size={500}
+          style={{ display: "block", marginBottom: 60, marginTop: 20 }}
+        >
+          Kindly select your area of interests.
+        </Text> */}
         {loadingV2 && !loading && <MySpinner />}
-        {tasks.length && (
+
+        {!userActivities.length && (
+          <>
+            <SelectActivity
+              activities={activities}
+              setUserActivities={setUserActivities}
+            />
+          </>
+        )}
+
+        {!!tasks.length && !!userActivities.length && (
           <div className="tabList">
             <TabList selectedValue={selectedValue} onTabSelect={onTabSelect}>
               {tasks.map((task, index) => {
@@ -140,7 +186,7 @@ export function Welcome(props: {
                         color="brand"
                         count={task.activeUser}
                         style={{ marginLeft: 5 }}
-                        overflowCount={999}
+                        overflowCount={9999}
                       />
                     )}
                   </Tab>

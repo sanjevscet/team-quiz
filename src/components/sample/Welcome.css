@@ -5,6 +5,8 @@
 
 .page-padding {
   padding: 4rem;
+  padding-top: 1rem;
+  width: 100%;
 }
 
 .welcome.page > .narrow > img {
@@ -134,7 +136,7 @@ pre::-webkit-scrollbar {
   width: 80px;
   height: 80px;
   border-radius: 50%;
-  background-color: #00Ab12;
+  background-color: #005512;
   /* Adjust the color as desired */
   display: flex;
   justify-content: center;
@@ -150,4 +152,18 @@ pre::-webkit-scrollbar {
   margin-top: 5px;
   font-size: 14px;
   color: #777;
+}
+
+
+.flex-item {
+  flex-basis: calc(33.33% - 10px);
+  /* Adjust as needed */
+  margin: 5px;
+  margin-top: 20px;
+  /* Adds spacing between items */
+}
+
+.flex-item img {
+  width: calc(100% - 10px);
+  max-height: 400px;
 }
